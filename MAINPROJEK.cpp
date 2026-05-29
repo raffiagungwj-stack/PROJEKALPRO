@@ -59,6 +59,14 @@ void tampilHistory();
 void bantuanGame();
 void tentangProgram();
 
+void loginAdmin();
+void menuAdmin();
+
+void lihatSemuaData();
+void hapusPemain();
+void resetUangPemain();
+void hapusHistory();
+
 void loadPlayers();
 void savePlayers();
 void saveHistory(string text);
@@ -114,7 +122,8 @@ void menuUtama()
         cout << "[4] Riwayat Permainan" << endl;
         cout << "[5] Cara Bermain" << endl;
         cout << "[6] Tentang Program" << endl;
-        cout << "[7] Keluar" << endl;
+        cout << "[7] Login Admin" << endl;
+        cout << "[8] Keluar" << endl;
 
         cout << endl;
 
@@ -148,6 +157,10 @@ void menuUtama()
                 break;
 
             case 7:
+                loginAdmin();
+                break;
+
+            case 8:
                 cout << "Terima Kasih Sudah Bermain!" << endl;
                 break;
 
@@ -156,7 +169,7 @@ void menuUtama()
                 system("pause");
         }
 
-    } while(choice != 7);
+    } while(choice != 8);
 }
 
 void mulaiGame()
@@ -188,9 +201,9 @@ void mulaiGame()
              << player.name
              << "!" << endl;
 
-        cout << "Uang : $" << player.money << endl;
+        cout << "Uang   : $" << player.money << endl;
         cout << "Menang : " << player.win << endl;
-        cout << "Kalah : " << player.lose << endl;
+        cout << "Kalah  : " << player.lose << endl;
     }
     else
     {
@@ -710,10 +723,10 @@ void cariPemain()
 
         cout << endl;
 
-        cout << "Nama  : " << players[index].name << endl;
-        cout << "Uang  : $" << players[index].money << endl;
-        cout << "Menang: " << players[index].win << endl;
-        cout << "Kalah : " << players[index].lose << endl;
+        cout << "Nama   : " << players[index].name << endl;
+        cout << "Uang   : $" << players[index].money << endl;
+        cout << "Menang : " << players[index].win << endl;
+        cout << "Kalah  : " << players[index].lose << endl;
     }
     else
     {
@@ -764,8 +777,8 @@ void bantuanGame()
     cout << "- Tujuan game mendekati angka 21" << endl;
     cout << "- Jika lebih dari 21 maka kalah" << endl;
     cout << "- Dealer otomatis mengambil kartu jika <17" << endl;
-    cout << "- Pilih Ambil Kartu untuk menambah kartu" << endl;
-    cout << "- Pilih Berhenti untuk stop kartu" << endl;
+    cout << "- Ambil Kartu untuk menambah kartu" << endl;
+    cout << "- Berhenti untuk stop kartu" << endl;
 
     cout << endl;
 
@@ -795,7 +808,7 @@ void tentangProgram()
 
     cout << "Fitur :" << endl;
     cout << "- Struct" << endl;
-    cout << "- Fungsi Rekursif" << endl;
+    cout << "- Rekursif" << endl;
     cout << "- Searching" << endl;
     cout << "- Sorting" << endl;
     cout << "- Pointer" << endl;
@@ -811,3 +824,229 @@ void tentangProgram()
     system("pause");
 }
 
+void loginAdmin()
+{
+    system("cls");
+
+    string username;
+    string password;
+
+    cout << "========================================" << endl;
+    cout << "              LOGIN ADMIN" << endl;
+    cout << "========================================" << endl;
+
+    cout << endl;
+
+    cout << "Username : ";
+    cin >> username;
+
+    cout << "Password : ";
+    cin >> password;
+
+    if(username == "admin" && password == "123")
+    {
+        cout << endl;
+        cout << "Login Berhasil!" << endl;
+
+        system("pause");
+
+        menuAdmin();
+    }
+    else
+    {
+        cout << endl;
+        cout << "Username atau Password Salah!" << endl;
+
+        system("pause");
+    }
+}
+
+void menuAdmin()
+{
+    int choice;
+
+    do
+    {
+        system("cls");
+
+        cout << "========================================" << endl;
+        cout << "               MENU ADMIN" << endl;
+        cout << "========================================" << endl;
+
+        cout << endl;
+
+        cout << "[1] Lihat Semua Data Pemain" << endl;
+        cout << "[2] Hapus Data Pemain" << endl;
+        cout << "[3] Reset Uang Pemain" << endl;
+        cout << "[4] Hapus Riwayat Permainan" << endl;
+        cout << "[5] Kembali" << endl;
+
+        cout << endl;
+
+        cout << "Pilih : ";
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+                lihatSemuaData();
+                break;
+
+            case 2:
+                hapusPemain();
+                break;
+
+            case 3:
+                resetUangPemain();
+                break;
+
+            case 4:
+                hapusHistory();
+                break;
+
+            case 5:
+                break;
+
+            default:
+                cout << "Menu Tidak Valid!" << endl;
+                system("pause");
+        }
+
+    } while(choice != 5);
+}
+
+void lihatSemuaData()
+{
+    system("cls");
+
+    cout << "========================================" << endl;
+    cout << "           DATA SELURUH PEMAIN" << endl;
+    cout << "========================================" << endl;
+
+    cout << endl;
+
+    cout << left
+         << setw(5)  << "No"
+         << setw(15) << "Nama"
+         << setw(10) << "Uang"
+         << setw(10) << "Menang"
+         << setw(10) << "Kalah"
+         << endl;
+
+    cout << endl;
+
+    for(int i = 0; i < totalPlayers; i++)
+    {
+        cout << left
+             << setw(5)  << i + 1
+             << setw(15) << players[i].name
+             << setw(10) << players[i].money
+             << setw(10) << players[i].win
+             << setw(10) << players[i].lose
+             << endl;
+    }
+
+    cout << endl;
+
+    system("pause");
+}
+
+void hapusPemain()
+{
+    system("cls");
+
+    string name;
+
+    cout << "========================================" << endl;
+    cout << "             HAPUS PEMAIN" << endl;
+    cout << "========================================" << endl;
+
+    cout << endl;
+
+    cout << "Masukkan Nama Pemain : ";
+    cin >> name;
+
+    int index;
+
+    if(searchPlayer(name, index))
+    {
+        for(int i = index; i < totalPlayers - 1; i++)
+        {
+            players[i] = players[i + 1];
+        }
+
+        totalPlayers--;
+
+        savePlayers();
+
+        cout << endl;
+        cout << "Data Pemain Berhasil Dihapus!" << endl;
+    }
+    else
+    {
+        cout << endl;
+        cout << "Pemain Tidak Ditemukan!" << endl;
+    }
+
+    cout << endl;
+
+    system("pause");
+}
+
+void resetUangPemain()
+{
+    system("cls");
+
+    string name;
+
+    cout << "========================================" << endl;
+    cout << "           RESET UANG PEMAIN" << endl;
+    cout << "========================================" << endl;
+
+    cout << endl;
+
+    cout << "Masukkan Nama Pemain : ";
+    cin >> name;
+
+    int index;
+
+    if(searchPlayer(name, index))
+    {
+        players[index].money = 1000;
+
+        savePlayers();
+
+        cout << endl;
+        cout << "Uang Pemain Berhasil Direset!" << endl;
+    }
+    else
+    {
+        cout << endl;
+        cout << "Pemain Tidak Ditemukan!" << endl;
+    }
+
+    cout << endl;
+
+    system("pause");
+}
+
+void hapusHistory()
+{
+    system("cls");
+
+    ofstream file("history.txt");
+
+    file.close();
+
+    cout << "========================================" << endl;
+    cout << "         HAPUS RIWAYAT GAME" << endl;
+    cout << "========================================" << endl;
+
+    cout << endl;
+
+    cout << "Riwayat Berhasil Dihapus!" << endl;
+
+    cout << endl;
+
+    system("pause");
+}
