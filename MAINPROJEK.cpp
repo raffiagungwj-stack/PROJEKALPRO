@@ -843,7 +843,7 @@ void loginAdmin()
     cout << "Password : ";
     cin >> password;
 
-    if(username == "admin" && password == "123")
+    if(username == "adminjudol" && password == "blackjack123")
     {
         cout << endl;
         cout << "Login Berhasil!" << endl;
