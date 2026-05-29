@@ -34,13 +34,16 @@ int totalPlayers = 0;
 
 string ranks[13] =
 {
-    "A","2","3","4","5","6","7",
-    "8","9","10","J","Q","K"
+    "As","2","3","4","5","6","7",
+    "8","9","10","Jack","Queen","King"
 };
 
 string suits[4] =
 {
-    "♥","♦","♣","♠"
+    "Hati",
+    "Wajik",
+    "Keriting",
+    "Sekop"
 };
 
 int values[13] =
@@ -48,13 +51,13 @@ int values[13] =
     11,2,3,4,5,6,7,8,9,10,10,10,10
 };
 
-void mainMenu();
-void startGame();
-void showLeaderboard();
-void searchPlayerMenu();
-void showHistory();
-void helpMenu();
-void aboutProgram();
+void menuUtama();
+void mulaiGame();
+void tampilLeaderboard();
+void cariPemain();
+void tampilHistory();
+void bantuanGame();
+void tentangProgram();
 
 void loadPlayers();
 void savePlayers();
@@ -64,9 +67,12 @@ bool searchPlayer(string name, int &index);
 void createPlayer(Player &p, string name);
 
 Card randomCard();
+
 void addCard(Player &p);
 void calculateScore(Player &p);
+
 void showCards(Player p, bool hideFirst);
+void showCardCalculation(Player p);
 
 void dealerTurn(Player &dealer);
 
@@ -81,12 +87,12 @@ int main()
 
     loadPlayers();
 
-    mainMenu();
+    menuUtama();
 
     return 0;
 }
 
-void mainMenu()
+void menuUtama()
 {
     int choice;
 
@@ -95,74 +101,77 @@ void mainMenu()
         system("cls");
 
         cout << "========================================" << endl;
-        cout << "           BLACKJACK 21" << endl;
+        cout << "              BLACKJACK 21" << endl;
         cout << "========================================" << endl;
-        cout << "       PROJECT ALPRO C++" << endl;
+        cout << "         PROJECT ALPRO C++" << endl;
         cout << "========================================" << endl;
-        cout << endl;
-
-        cout << "[1] Main Game" << endl;
-        cout << "[2] Leaderboard" << endl;
-        cout << "[3] Search Player" << endl;
-        cout << "[4] Game History" << endl;
-        cout << "[5] Help / Rules" << endl;
-        cout << "[6] About Program" << endl;
-        cout << "[7] Exit" << endl;
 
         cout << endl;
-        cout << "Choose Menu : ";
+
+        cout << "[1] Mulai Game" << endl;
+        cout << "[2] Peringkat Pemain" << endl;
+        cout << "[3] Cari Pemain" << endl;
+        cout << "[4] Riwayat Permainan" << endl;
+        cout << "[5] Cara Bermain" << endl;
+        cout << "[6] Tentang Program" << endl;
+        cout << "[7] Keluar" << endl;
+
+        cout << endl;
+
+        cout << "Pilih Menu : ";
         cin >> choice;
 
         switch(choice)
         {
             case 1:
-                startGame();
+                mulaiGame();
                 break;
 
             case 2:
-                showLeaderboard();
+                tampilLeaderboard();
                 break;
 
             case 3:
-                searchPlayerMenu();
+                cariPemain();
                 break;
 
             case 4:
-                showHistory();
+                tampilHistory();
                 break;
 
             case 5:
-                helpMenu();
+                bantuanGame();
                 break;
 
             case 6:
-                aboutProgram();
+                tentangProgram();
                 break;
 
             case 7:
-                cout << "Thank You For Playing!" << endl;
+                cout << "Terima Kasih Sudah Bermain!" << endl;
                 break;
 
             default:
-                cout << "Invalid Menu!" << endl;
+                cout << "Menu Tidak Valid!" << endl;
                 system("pause");
         }
 
     } while(choice != 7);
 }
 
-void startGame()
+void mulaiGame()
 {
     system("cls");
 
     string playerName;
 
-    cout << "================================" << endl;
-    cout << "           NEW GAME" << endl;
-    cout << "================================" << endl;
+    cout << "========================================" << endl;
+    cout << "               GAME BARU" << endl;
+    cout << "========================================" << endl;
+
     cout << endl;
 
-    cout << "Input Player Name : ";
+    cout << "Masukkan Nama Pemain : ";
     cin >> playerName;
 
     Player player;
@@ -174,10 +183,14 @@ void startGame()
         player = players[index];
 
         cout << endl;
-        cout << "Welcome Back " << player.name << "!" << endl;
-        cout << "Money : $" << player.money << endl;
-        cout << "Win   : " << player.win << endl;
-        cout << "Lose  : " << player.lose << endl;
+
+        cout << "Selamat Datang Kembali "
+             << player.name
+             << "!" << endl;
+
+        cout << "Uang : $" << player.money << endl;
+        cout << "Menang : " << player.win << endl;
+        cout << "Kalah : " << player.lose << endl;
     }
     else
     {
@@ -189,14 +202,14 @@ void startGame()
         savePlayers();
 
         cout << endl;
-        cout << "New Player Created!" << endl;
-        cout << "Starting Money : $1000" << endl;
+        cout << "Pemain Baru Berhasil Dibuat!" << endl;
+        cout << "Uang Awal : $1000" << endl;
     }
 
     if(player.money <= 0)
     {
         cout << endl;
-        cout << "Your money is empty!" << endl;
+        cout << "Uang Anda Habis!" << endl;
         system("pause");
         return;
     }
@@ -204,17 +217,21 @@ void startGame()
     int bet;
 
     cout << endl;
-    cout << "================================" << endl;
-    cout << "          PLACE BET" << endl;
-    cout << "================================" << endl;
 
-    cout << "Money : $" << player.money << endl;
-    cout << "Input Bet : $";
+    cout << "========================================" << endl;
+    cout << "             PASANG TARUHAN" << endl;
+    cout << "========================================" << endl;
+
+    cout << endl;
+
+    cout << "Uang : $" << player.money << endl;
+    cout << "Masukkan Taruhan : $";
     cin >> bet;
 
     if(bet <= 0 || bet > player.money)
     {
-        cout << "Invalid Bet!" << endl;
+        cout << endl;
+        cout << "Taruhan Tidak Valid!" << endl;
         system("pause");
         return;
     }
@@ -240,33 +257,55 @@ void startGame()
     {
         system("cls");
 
-        cout << "==================================" << endl;
-        cout << "            BLACKJACK" << endl;
-        cout << "==================================" << endl;
-        cout << endl;
-
-        cout << "Player : " << player.name << endl;
-        cout << "Money  : $" << player.money << endl;
-        cout << "Bet    : $" << bet << endl;
+        cout << "========================================" << endl;
+        cout << "               BLACKJACK" << endl;
+        cout << "========================================" << endl;
 
         cout << endl;
 
-        cout << "----------------------------------" << endl;
+        cout << "Pemain  : " << player.name << endl;
+        cout << "Uang    : $" << player.money << endl;
+        cout << "Taruhan : $" << bet << endl;
+
         cout << endl;
 
-        cout << "Dealer Cards" << endl;
+        cout << "----------------------------------------" << endl;
+
+        cout << endl;
+
+        int visibleDealerScore = dealer.hand[1].value;
+
+        cout << "Dealer "
+             << "[Skor Terlihat : "
+             << visibleDealerScore
+             << "]"
+             << endl;
+
+        cout << endl;
+
         showCards(dealer, true);
-        cout << "Dealer Total : ?" << endl;
 
         cout << endl;
 
-        cout << "----------------------------------" << endl;
+        cout << "----------------------------------------" << endl;
+
         cout << endl;
 
-        cout << "Your Cards" << endl;
+        cout << player.name
+             << " ["
+             << player.score
+             << "]"
+             << endl;
+
+        cout << endl;
+
         showCards(player, false);
 
-        cout << "Your Total : " << player.score << endl;
+        cout << endl;
+
+        showCardCalculation(player);
+
+        cout << endl;
 
         if(player.score < 17)
         {
@@ -274,7 +313,7 @@ void startGame()
         }
         else if(player.score < 21)
         {
-            cout << "Status : Risky" << endl;
+            cout << "Status : Berbahaya" << endl;
         }
         else if(player.score == 21)
         {
@@ -282,7 +321,7 @@ void startGame()
         }
         else
         {
-            cout << "BUST!" << endl;
+            cout << "MELEBIHI 21!" << endl;
         }
 
         if(player.score > 21)
@@ -292,11 +331,12 @@ void startGame()
 
         cout << endl;
 
-        cout << "[1] Hit" << endl;
-        cout << "[2] Stand" << endl;
+        cout << "[1] Ambil Kartu" << endl;
+        cout << "[2] Berhenti" << endl;
 
         cout << endl;
-        cout << "Choose : ";
+
+        cout << "Pilih : ";
         cin >> choice;
 
         if(choice == 1)
@@ -308,9 +348,10 @@ void startGame()
 
     system("cls");
 
-    cout << "==================================" << endl;
-    cout << "           FINAL RESULT" << endl;
-    cout << "==================================" << endl;
+    cout << "========================================" << endl;
+    cout << "             HASIL AKHIR" << endl;
+    cout << "========================================" << endl;
+
     cout << endl;
 
     if(player.score <= 21)
@@ -318,15 +359,39 @@ void startGame()
         dealerTurn(dealer);
     }
 
-    cout << "Dealer Cards" << endl;
-    showCards(dealer, false);
-    cout << "Dealer Total : " << dealer.score << endl;
+    cout << "Dealer"
+         << " ["
+         << dealer.score
+         << "]"
+         << endl;
 
     cout << endl;
 
-    cout << "Your Cards" << endl;
+    showCards(dealer, false);
+
+    cout << endl;
+
+    showCardCalculation(dealer);
+
+    cout << endl;
+
+    cout << "----------------------------------------" << endl;
+
+    cout << endl;
+
+    cout << player.name
+         << " ["
+         << player.score
+         << "]"
+         << endl;
+
+    cout << endl;
+
     showCards(player, false);
-    cout << "Your Total : " << player.score << endl;
+
+    cout << endl;
+
+    showCardCalculation(player);
 
     cout << endl;
 
@@ -334,55 +399,57 @@ void startGame()
 
     if(player.score > 21)
     {
-        cout << "YOU BUST!" << endl;
-        cout << "YOU LOSE!" << endl;
+        cout << "ANDA KALAH!" << endl;
 
         kurangiMoney(&player.money, bet);
 
         player.lose++;
 
-        history = player.name + " | LOSE | BUST";
+        history = player.name + " | KALAH | MELEBIHI 21";
     }
     else if(dealer.score > 21)
     {
-        cout << "DEALER BUST!" << endl;
-        cout << "YOU WIN!" << endl;
+        cout << "Dealer MELEBIHI 21!" << endl;
+        cout << "ANDA MENANG!" << endl;
 
         tambahMoney(&player.money, bet);
 
         player.win++;
 
-        history = player.name + " | WIN | DEALER BUST";
+        history = player.name + " | MENANG | DEALER BUST";
     }
     else if(player.score > dealer.score)
     {
-        cout << "YOU WIN!" << endl;
+        cout << "ANDA MENANG!" << endl;
 
         tambahMoney(&player.money, bet);
 
         player.win++;
 
-        history = player.name + " | WIN | SCORE";
+        history = player.name + " | MENANG";
     }
     else if(player.score < dealer.score)
     {
-        cout << "YOU LOSE!" << endl;
+        cout << "ANDA KALAH!" << endl;
 
         kurangiMoney(&player.money, bet);
 
         player.lose++;
 
-        history = player.name + " | LOSE | SCORE";
+        history = player.name + " | KALAH";
     }
     else
     {
-        cout << "DRAW!" << endl;
+        cout << "SERI!" << endl;
 
-        history = player.name + " | DRAW";
+        history = player.name + " | SERI";
     }
 
     cout << endl;
-    cout << "Current Money : $" << player.money << endl;
+
+    cout << "Uang Sekarang : $"
+         << player.money
+         << endl;
 
     if(searchPlayer(player.name, index))
     {
@@ -452,7 +519,7 @@ void calculateScore(Player &p)
     {
         p.score += p.hand[i].value;
 
-        if(p.hand[i].rank == "A")
+        if(p.hand[i].rank == "As")
         {
             aceCount++;
         }
@@ -471,12 +538,13 @@ void showCards(Player p, bool hideFirst)
     {
         if(i == 0 && hideFirst)
         {
-            cout << "[?] ";
+            cout << "[Kartu Tertutup] ";
         }
         else
         {
-            cout << "[" 
+            cout << "["
                  << p.hand[i].rank
+                 << " "
                  << p.hand[i].suit
                  << "] ";
         }
@@ -485,7 +553,21 @@ void showCards(Player p, bool hideFirst)
     cout << endl;
 }
 
-// RECURSIVE FUNCTION
+void showCardCalculation(Player p)
+{
+    for(int i = 0; i < p.totalCard; i++)
+    {
+        cout << p.hand[i].value;
+
+        if(i != p.totalCard - 1)
+        {
+            cout << " + ";
+        }
+    }
+
+    cout << " = " << p.score << endl;
+}
+
 void dealerTurn(Player &dealer)
 {
     if(dealer.score < 17)
@@ -496,7 +578,6 @@ void dealerTurn(Player &dealer)
     }
 }
 
-// POINTER FUNCTION
 void tambahMoney(int *money, int amount)
 {
     *money += amount;
@@ -533,7 +614,8 @@ void savePlayers()
         file << players[i].name << " "
              << players[i].money << " "
              << players[i].win << " "
-             << players[i].lose << endl;
+             << players[i].lose
+             << endl;
     }
 
     file.close();
@@ -548,7 +630,6 @@ void saveHistory(string text)
     file.close();
 }
 
-// SORTING
 void sortLeaderboard()
 {
     for(int i = 0; i < totalPlayers - 1; i++)
@@ -558,6 +639,7 @@ void sortLeaderboard()
             if(players[i].money < players[j].money)
             {
                 Player temp = players[i];
+
                 players[i] = players[j];
                 players[j] = temp;
             }
@@ -565,29 +647,32 @@ void sortLeaderboard()
     }
 }
 
-void showLeaderboard()
+void tampilLeaderboard()
 {
     system("cls");
 
     sortLeaderboard();
 
     cout << "========================================" << endl;
-    cout << "             LEADERBOARD" << endl;
+    cout << "          PERINGKAT PEMAIN" << endl;
     cout << "========================================" << endl;
+
     cout << endl;
 
     cout << left
-         << setw(5) << "No"
-         << setw(15) << "Name"
-         << setw(10) << "Money"
-         << setw(10) << "Win"
-         << setw(10) << "Lose"
+         << setw(5)  << "No"
+         << setw(15) << "Nama"
+         << setw(10) << "Uang"
+         << setw(10) << "Menang"
+         << setw(10) << "Kalah"
          << endl;
+
+    cout << endl;
 
     for(int i = 0; i < totalPlayers; i++)
     {
         cout << left
-             << setw(5) << i + 1
+             << setw(5)  << i + 1
              << setw(15) << players[i].name
              << setw(10) << players[i].money
              << setw(10) << players[i].win
@@ -600,18 +685,19 @@ void showLeaderboard()
     system("pause");
 }
 
-void searchPlayerMenu()
+void cariPemain()
 {
     system("cls");
 
     string name;
 
     cout << "========================================" << endl;
-    cout << "             SEARCH PLAYER" << endl;
+    cout << "             CARI PEMAIN" << endl;
     cout << "========================================" << endl;
+
     cout << endl;
 
-    cout << "Input Player Name : ";
+    cout << "Masukkan Nama Pemain : ";
     cin >> name;
 
     int index;
@@ -620,17 +706,18 @@ void searchPlayerMenu()
 
     if(searchPlayer(name, index))
     {
-        cout << "Player Found!" << endl;
+        cout << "Pemain Ditemukan!" << endl;
+
         cout << endl;
 
-        cout << "Name  : " << players[index].name << endl;
-        cout << "Money : $" << players[index].money << endl;
-        cout << "Win   : " << players[index].win << endl;
-        cout << "Lose  : " << players[index].lose << endl;
+        cout << "Nama  : " << players[index].name << endl;
+        cout << "Uang  : $" << players[index].money << endl;
+        cout << "Menang: " << players[index].win << endl;
+        cout << "Kalah : " << players[index].lose << endl;
     }
     else
     {
-        cout << "Player Not Found!" << endl;
+        cout << "Pemain Tidak Ditemukan!" << endl;
     }
 
     cout << endl;
@@ -638,7 +725,7 @@ void searchPlayerMenu()
     system("pause");
 }
 
-void showHistory()
+void tampilHistory()
 {
     system("cls");
 
@@ -647,8 +734,9 @@ void showHistory()
     string text;
 
     cout << "========================================" << endl;
-    cout << "             GAME HISTORY" << endl;
+    cout << "          RIWAYAT PERMAINAN" << endl;
     cout << "========================================" << endl;
+
     cout << endl;
 
     while(getline(file, text))
@@ -663,39 +751,41 @@ void showHistory()
     system("pause");
 }
 
-void helpMenu()
+void bantuanGame()
 {
     system("cls");
 
     cout << "========================================" << endl;
-    cout << "               HELP MENU" << endl;
+    cout << "             CARA BERMAIN" << endl;
     cout << "========================================" << endl;
+
     cout << endl;
 
     cout << "- Tujuan game mendekati angka 21" << endl;
     cout << "- Jika lebih dari 21 maka kalah" << endl;
-    cout << "- Dealer otomatis hit jika <17" << endl;
-    cout << "- Pilih HIT untuk tambah kartu" << endl;
-    cout << "- Pilih STAND untuk berhenti" << endl;
+    cout << "- Dealer otomatis mengambil kartu jika <17" << endl;
+    cout << "- Pilih Ambil Kartu untuk menambah kartu" << endl;
+    cout << "- Pilih Berhenti untuk stop kartu" << endl;
 
     cout << endl;
 
-    cout << "Card Value :" << endl;
-    cout << "A = 1 atau 11" << endl;
-    cout << "J/Q/K = 10" << endl;
+    cout << "Nilai Kartu :" << endl;
+    cout << "As = 1 atau 11" << endl;
+    cout << "Jack/Queen/King = 10" << endl;
 
     cout << endl;
 
     system("pause");
 }
 
-void aboutProgram()
+void tentangProgram()
 {
     system("cls");
 
     cout << "========================================" << endl;
-    cout << "             ABOUT PROGRAM" << endl;
+    cout << "            TENTANG PROGRAM" << endl;
     cout << "========================================" << endl;
+
     cout << endl;
 
     cout << "BLACKJACK 21" << endl;
@@ -703,9 +793,9 @@ void aboutProgram()
 
     cout << endl;
 
-    cout << "Features :" << endl;
+    cout << "Fitur :" << endl;
     cout << "- Struct" << endl;
-    cout << "- Rekursif" << endl;
+    cout << "- Fungsi Rekursif" << endl;
     cout << "- Searching" << endl;
     cout << "- Sorting" << endl;
     cout << "- Pointer" << endl;
@@ -713,10 +803,11 @@ void aboutProgram()
 
     cout << endl;
 
-    cout << "Created By :" << endl;
+    cout << "Dibuat Oleh :" << endl;
     cout << "Muhammad Zenitho Mawla Pasha Munif" << endl;
 
     cout << endl;
 
     system("pause");
 }
+
