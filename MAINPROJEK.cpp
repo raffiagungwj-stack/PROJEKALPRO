@@ -109,11 +109,9 @@ void menuUtama()
         system("cls");
 
         cout << "========================================" << endl;
-        cout << "              BLACKJACK 21" << endl;
+        cout << "            BLACKJACK MAX 21            " << endl;
         cout << "========================================" << endl;
-        cout << "         PROJECT ALPRO C++" << endl;
-        cout << "========================================" << endl;
-
+       
         cout << endl;
 
         cout << "[1] Mulai Game" << endl;
