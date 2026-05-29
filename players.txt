@@ -1,2 +1,1 @@
-zenitho 1000 0 0
- 1000 0 0
+pontolketir 1000 0 0
