@@ -1,1 +1,2 @@
 pontolketir 2000 1 0
+zenitho 1500 1 0
