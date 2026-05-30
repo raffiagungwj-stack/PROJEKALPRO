@@ -217,84 +217,176 @@ void mulaiGame()
         cout << "Uang Awal : $1000" << endl;
     }
 
-    if(player.money <= 0)
-    {
-        cout << endl;
-        cout << "Uang Anda Habis!" << endl;
-        system("pause");
-        return;
-    }
-
-    int bet;
-
-    cout << endl;
-
-    cout << "========================================" << endl;
-    cout << "             PASANG TARUHAN" << endl;
-    cout << "========================================" << endl;
-
-    cout << endl;
-
-    cout << "Uang : $" << player.money << endl;
-    cout << "Masukkan Taruhan : $";
-    cin >> bet;
-
-    if(bet <= 0 || bet > player.money)
-    {
-        cout << endl;
-        cout << "Taruhan Tidak Valid!" << endl;
-        system("pause");
-        return;
-    }
-
-    Player dealer;
-
-    dealer.name = "Dealer";
-    dealer.totalCard = 0;
-    dealer.score = 0;
-
-    player.totalCard = 0;
-    player.score = 0;
-
-    addCard(player);
-    addCard(player);
-
-    addCard(dealer);
-    addCard(dealer);
-
-    int choice;
+    char mainLagi;
 
     do
     {
+        if(player.money <= 0)
+        {
+            cout << endl;
+            cout << "Uang Anda Habis! Tidak Bisa Melanjutkan." << endl;
+            system("pause");
+            return;
+        }
+
+        int bet;
+
+        cout << endl;
+
+        cout << "========================================" << endl;
+        cout << "             PASANG TARUHAN" << endl;
+        cout << "========================================" << endl;
+
+        cout << endl;
+
+        cout << "Uang : $" << player.money << endl;
+        cout << "Masukkan Taruhan : $";
+        cin >> bet;
+
+        if(bet <= 0 || bet > player.money)
+        {
+            cout << endl;
+            cout << "Taruhan Tidak Valid!" << endl;
+            system("pause");
+            return;
+        }
+
+        Player dealer;
+
+        dealer.name = "Dealer";
+        dealer.totalCard = 0;
+        dealer.score = 0;
+
+        player.totalCard = 0;
+        player.score = 0;
+
+        addCard(player);
+        addCard(player);
+
+        addCard(dealer);
+        addCard(dealer);
+
+        int choice;
+
+        do
+        {
+            system("cls");
+
+            cout << "========================================" << endl;
+            cout << "               BLACKJACK" << endl;
+            cout << "========================================" << endl;
+
+            cout << endl;
+
+            cout << "Pemain  : " << player.name << endl;
+            cout << "Uang    : $" << player.money << endl;
+            cout << "Taruhan : $" << bet << endl;
+
+            cout << endl;
+
+            cout << "----------------------------------------" << endl;
+
+            cout << endl;
+
+            int visibleDealerScore = dealer.hand[1].value;
+
+            cout << "Dealer "
+                 << "[Skor Terlihat : "
+                 << visibleDealerScore
+                 << "]"
+                 << endl;
+
+            cout << endl;
+
+            showCards(dealer, true);
+
+            cout << endl;
+
+            cout << "----------------------------------------" << endl;
+
+            cout << endl;
+
+            cout << player.name
+                 << " ["
+                 << player.score
+                 << "]"
+                 << endl;
+
+            cout << endl;
+
+            showCards(player, false);
+
+            cout << endl;
+
+            showCardCalculation(player);
+
+            cout << endl;
+
+            if(player.score < 17)
+            {
+                cout << "Status : Aman" << endl;
+            }
+            else if(player.score < 21)
+            {
+                cout << "Status : Berbahaya" << endl;
+            }
+            else if(player.score == 21)
+            {
+                cout << "BLACKJACK!" << endl;
+            }
+            else
+            {
+                cout << "MELEBIHI 21!" << endl;
+            }
+
+            if(player.score > 21)
+            {
+                break;
+            }
+
+            cout << endl;
+
+            cout << "[1] Ambil Kartu" << endl;
+            cout << "[2] Berhenti" << endl;
+
+            cout << endl;
+
+            cout << "Pilih : ";
+            cin >> choice;
+
+            if(choice == 1)
+            {
+                addCard(player);
+            }
+
+        } while(choice != 2);
+
         system("cls");
 
         cout << "========================================" << endl;
-        cout << "               BLACKJACK" << endl;
+        cout << "             HASIL AKHIR" << endl;
         cout << "========================================" << endl;
 
         cout << endl;
 
-        cout << "Pemain  : " << player.name << endl;
-        cout << "Uang    : $" << player.money << endl;
-        cout << "Taruhan : $" << bet << endl;
+        if(player.score <= 21)
+        {
+            dealerTurn(dealer);
+        }
 
-        cout << endl;
-
-        cout << "----------------------------------------" << endl;
-
-        cout << endl;
-
-        int visibleDealerScore = dealer.hand[1].value;
-
-        cout << "Dealer "
-             << "[Skor Terlihat : "
-             << visibleDealerScore
+        cout << "Dealer"
+             << " ["
+             << dealer.score
              << "]"
              << endl;
 
         cout << endl;
 
-        showCards(dealer, true);
+        showCards(dealer, false);
+
+        cout << endl;
+
+        showCardCalculation(dealer);
 
         cout << endl;
 
@@ -318,160 +410,79 @@ void mulaiGame()
 
         cout << endl;
 
-        if(player.score < 17)
-        {
-            cout << "Status : Aman" << endl;
-        }
-        else if(player.score < 21)
-        {
-            cout << "Status : Berbahaya" << endl;
-        }
-        else if(player.score == 21)
-        {
-            cout << "BLACKJACK!" << endl;
-        }
-        else
-        {
-            cout << "MELEBIHI 21!" << endl;
-        }
+        string history;
 
         if(player.score > 21)
         {
-            break;
+            cout << "ANDA KALAH!" << endl;
+
+            kurangiMoney(&player.money, bet);
+
+            player.lose++;
+
+            history = player.name + " | KALAH | MELEBIHI 21";
         }
-
-        cout << endl;
-
-        cout << "[1] Ambil Kartu" << endl;
-        cout << "[2] Berhenti" << endl;
-
-        cout << endl;
-
-        cout << "Pilih : ";
-        cin >> choice;
-
-        if(choice == 1)
+        else if(dealer.score > 21)
         {
-            addCard(player);
+            cout << "Dealer MELEBIHI 21!" << endl;
+            cout << "ANDA MENANG!" << endl;
+
+            tambahMoney(&player.money, bet);
+
+            player.win++;
+
+            history = player.name + " | MENANG | DEALER BUST";
+        }
+        else if(player.score > dealer.score)
+        {
+            cout << "ANDA MENANG!" << endl;
+
+            tambahMoney(&player.money, bet);
+
+            player.win++;
+
+            history = player.name + " | MENANG";
+        }
+        else if(player.score < dealer.score)
+        {
+            cout << "ANDA KALAH!" << endl;
+
+            kurangiMoney(&player.money, bet);
+
+            player.lose++;
+
+            history = player.name + " | KALAH";
+        }
+        else
+        {
+            cout << "SERI!" << endl;
+
+            history = player.name + " | SERI";
         }
 
-    } while(choice != 2);
+        cout << endl;
 
-    system("cls");
+        cout << "Uang Sekarang : $"
+             << player.money
+             << endl;
 
-    cout << "========================================" << endl;
-    cout << "             HASIL AKHIR" << endl;
-    cout << "========================================" << endl;
+        if(searchPlayer(player.name, index))
+        {
+            players[index] = player;
+        }
 
-    cout << endl;
+        savePlayers();
+        saveHistory(history);
 
-    if(player.score <= 21)
-    {
-        dealerTurn(dealer);
-    }
+        cout << endl;
+        cout << "========================================" << endl;
+        cout << "Ingin Main Lagi? (y/n) : ";
+        cin >> mainLagi;
 
-    cout << "Dealer"
-         << " ["
-         << dealer.score
-         << "]"
-         << endl;
-
-    cout << endl;
-
-    showCards(dealer, false);
+    } while(mainLagi == 'y' || mainLagi == 'Y');
 
     cout << endl;
-
-    showCardCalculation(dealer);
-
-    cout << endl;
-
-    cout << "----------------------------------------" << endl;
-
-    cout << endl;
-
-    cout << player.name
-         << " ["
-         << player.score
-         << "]"
-         << endl;
-
-    cout << endl;
-
-    showCards(player, false);
-
-    cout << endl;
-
-    showCardCalculation(player);
-
-    cout << endl;
-
-    string history;
-
-    if(player.score > 21)
-    {
-        cout << "ANDA KALAH!" << endl;
-
-        kurangiMoney(&player.money, bet);
-
-        player.lose++;
-
-        history = player.name + " | KALAH | MELEBIHI 21";
-    }
-    else if(dealer.score > 21)
-    {
-        cout << "Dealer MELEBIHI 21!" << endl;
-        cout << "ANDA MENANG!" << endl;
-
-        tambahMoney(&player.money, bet);
-
-        player.win++;
-
-        history = player.name + " | MENANG | DEALER BUST";
-    }
-    else if(player.score > dealer.score)
-    {
-        cout << "ANDA MENANG!" << endl;
-
-        tambahMoney(&player.money, bet);
-
-        player.win++;
-
-        history = player.name + " | MENANG";
-    }
-    else if(player.score < dealer.score)
-    {
-        cout << "ANDA KALAH!" << endl;
-
-        kurangiMoney(&player.money, bet);
-
-        player.lose++;
-
-        history = player.name + " | KALAH";
-    }
-    else
-    {
-        cout << "SERI!" << endl;
-
-        history = player.name + " | SERI";
-    }
-
-    cout << endl;
-
-    cout << "Uang Sekarang : $"
-         << player.money
-         << endl;
-
-    if(searchPlayer(player.name, index))
-    {
-        players[index] = player;
-    }
-
-    savePlayers();
-    saveHistory(history);
-
-    cout << endl;
-
+    cout << "Terima kasih sudah bermain, " << player.name << "!" << endl;
     system("pause");
 }
 

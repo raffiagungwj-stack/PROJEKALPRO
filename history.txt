@@ -1,2 +1,8 @@
 pontolketir | MENANG
 zenitho | MENANG
+yayang | KALAH
+yayang | KALAH | MELEBIHI 21
+yayang | SERI
+yayang | KALAH
+zenitho | KALAH
+zenitho | MENANG
