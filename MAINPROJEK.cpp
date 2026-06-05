@@ -10,15 +10,13 @@ using namespace std;
 const int MAX_PLAYER = 100;
 const int MAX_CARD = 10;
 
-struct Card
-{
+struct Card{
     string rank;
     string suit;
     int value;
 };
 
-struct Player
-{
+struct Player{
     string name;
     int money;
     int win;
@@ -32,22 +30,19 @@ struct Player
 Player players[MAX_PLAYER];
 int totalPlayers = 0;
 
-string ranks[13] =
-{
+string ranks[13] ={
     "As","2","3","4","5","6","7",
     "8","9","10","Jack","Queen","King"
 };
 
-string suits[4] =
-{
+string suits[4] ={
     "Hati",
     "Wajik",
     "Keriting",
     "Sekop"
 };
 
-int values[13] =
-{
+int values[13] = {
     11,2,3,4,5,6,7,8,9,10,10,10,10
 };
 
@@ -89,8 +84,7 @@ void kurangiMoney(int *money, int amount);
 
 void sortLeaderboard();
 
-int main()
-{
+int main() {
     srand(time(0));
 
     loadPlayers();
@@ -100,8 +94,7 @@ int main()
     return 0;
 }
 
-void menuUtama()
-{
+void menuUtama(){
     int choice;
 
     do
@@ -170,8 +163,7 @@ void menuUtama()
     } while(choice != 8);
 }
 
-void mulaiGame()
-{
+void mulaiGame(){
     system("cls");
 
     string playerName;
@@ -486,16 +478,14 @@ void mulaiGame()
     system("pause");
 }
 
-void createPlayer(Player &p, string name)
-{
+void createPlayer(Player &p, string name){
     p.name = name;
     p.money = 1000;
     p.win = 0;
     p.lose = 0;
 }
 
-bool searchPlayer(string name, int &index)
-{
+bool searchPlayer(string name, int &index){
     for(int i = 0; i < totalPlayers; i++)
     {
         if(players[i].name == name)
@@ -508,8 +498,7 @@ bool searchPlayer(string name, int &index)
     return false;
 }
 
-Card randomCard()
-{
+Card randomCard(){
     Card c;
 
     int r = rand() % 13;
@@ -522,8 +511,7 @@ Card randomCard()
     return c;
 }
 
-void addCard(Player &p)
-{
+void addCard(Player &p){
     p.hand[p.totalCard] = randomCard();
 
     p.totalCard++;
@@ -531,8 +519,7 @@ void addCard(Player &p)
     calculateScore(p);
 }
 
-void calculateScore(Player &p)
-{
+void calculateScore(Player &p){
     p.score = 0;
 
     int aceCount = 0;
@@ -554,8 +541,7 @@ void calculateScore(Player &p)
     }
 }
 
-void showCards(Player p, bool hideFirst)
-{
+void showCards(Player p, bool hideFirst){
     for(int i = 0; i < p.totalCard; i++)
     {
         if(i == 0 && hideFirst)
@@ -575,8 +561,7 @@ void showCards(Player p, bool hideFirst)
     cout << endl;
 }
 
-void showCardCalculation(Player p)
-{
+void showCardCalculation(Player p){
     for(int i = 0; i < p.totalCard; i++)
     {
         cout << p.hand[i].value;
@@ -590,8 +575,7 @@ void showCardCalculation(Player p)
     cout << " = " << p.score << endl;
 }
 
-void dealerTurn(Player &dealer)
-{
+void dealerTurn(Player &dealer){
     if(dealer.score < 17)
     {
         addCard(dealer);
@@ -600,18 +584,15 @@ void dealerTurn(Player &dealer)
     }
 }
 
-void tambahMoney(int *money, int amount)
-{
+void tambahMoney(int *money, int amount){
     *money += amount;
 }
 
-void kurangiMoney(int *money, int amount)
-{
+void kurangiMoney(int *money, int amount){
     *money -= amount;
 }
 
-void loadPlayers()
-{
+void loadPlayers(){
     ifstream file("players.txt");
 
     totalPlayers = 0;
@@ -627,8 +608,7 @@ void loadPlayers()
     file.close();
 }
 
-void savePlayers()
-{
+void savePlayers(){
     ofstream file("players.txt");
 
     for(int i = 0; i < totalPlayers; i++)
@@ -643,8 +623,7 @@ void savePlayers()
     file.close();
 }
 
-void saveHistory(string text)
-{
+void saveHistory(string text){
     ofstream file("history.txt", ios::app);
 
     file << text << endl;
@@ -652,8 +631,7 @@ void saveHistory(string text)
     file.close();
 }
 
-void sortLeaderboard()
-{
+void sortLeaderboard(){
     for(int i = 0; i < totalPlayers - 1; i++)
     {
         for(int j = i + 1; j < totalPlayers; j++)
@@ -669,8 +647,7 @@ void sortLeaderboard()
     }
 }
 
-void tampilLeaderboard()
-{
+void tampilLeaderboard(){
     system("cls");
 
     sortLeaderboard();
@@ -707,8 +684,7 @@ void tampilLeaderboard()
     system("pause");
 }
 
-void cariPemain()
-{
+void cariPemain(){
     system("cls");
 
     string name;
@@ -747,8 +723,7 @@ void cariPemain()
     system("pause");
 }
 
-void tampilHistory()
-{
+void tampilHistory(){
     system("cls");
 
     ifstream file("history.txt");
@@ -773,8 +748,7 @@ void tampilHistory()
     system("pause");
 }
 
-void bantuanGame()
-{
+void bantuanGame(){
     system("cls");
 
     cout << "========================================" << endl;
@@ -800,8 +774,7 @@ void bantuanGame()
     system("pause");
 }
 
-void tentangProgram()
-{
+void tentangProgram(){
     system("cls");
 
     cout << "========================================" << endl;
@@ -833,8 +806,7 @@ void tentangProgram()
     system("pause");
 }
 
-void loginAdmin()
-{
+void loginAdmin(){
     system("cls");
 
     string username;
@@ -870,8 +842,7 @@ void loginAdmin()
     }
 }
 
-void menuAdmin()
-{
+void menuAdmin(){
     int choice;
 
     do
@@ -924,8 +895,7 @@ void menuAdmin()
     } while(choice != 5);
 }
 
-void lihatSemuaData()
-{
+void lihatSemuaData(){
     system("cls");
 
     cout << "========================================" << endl;
@@ -960,8 +930,7 @@ void lihatSemuaData()
     system("pause");
 }
 
-void hapusPemain()
-{
+void hapusPemain(){
     system("cls");
 
     string name;
@@ -1002,8 +971,7 @@ void hapusPemain()
     system("pause");
 }
 
-void resetUangPemain()
-{
+void resetUangPemain(){
     system("cls");
 
     string name;
@@ -1039,8 +1007,7 @@ void resetUangPemain()
     system("pause");
 }
 
-void hapusHistory()
-{
+void hapusHistory(){
     system("cls");
 
     ofstream file("history.txt");
